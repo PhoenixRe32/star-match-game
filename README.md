@@ -1,5 +1,7 @@
 ## Deploy to AWS S3
-`npm run build && aws s3 sync ./build s3://pittacode.star-match`
+Make sure to create stack in AWS using cloudformation in ci/ folder.
+
+`npm run build && aws run deploy`
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
