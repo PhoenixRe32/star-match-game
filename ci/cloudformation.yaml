@@ -1,0 +1,70 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Parameters:
+  SubDomainName:
+    Type: String
+    Default: star-match
+    Description: Name of website/app
+  RootDomainName:
+    Description: Domain name for your website (example.com)
+    Type: String
+    Default: pittacode.com
+
+Resources:
+  S3Bucket:
+    Type: 'AWS::S3::Bucket'
+    Properties:
+      BucketName: !Join
+        - '.'
+        - - !Ref SubDomainName
+          - !Ref RootDomainName
+      AccessControl: 'PublicRead'
+      WebsiteConfiguration:
+        IndexDocument: 'index.html'
+        ErrorDocument: 'error.html'
+  BucketPolicy:
+    Type: 'AWS::S3::BucketPolicy'
+    Properties:
+      PolicyDocument:
+        Id: 'star.match.policy'
+        Version: 2012-10-17
+        Statement:
+          - Sid: 'AllowPublicReadAccess'
+            Effect: 'Allow'
+            Principal: '*'
+            Action: 's3:GetObject'
+            Resource: !Join
+              - ''
+              - - 'arn:aws:s3:::'
+                - !Ref S3Bucket
+                - '/*'
+      Bucket: !Ref S3Bucket
+  DNS:
+    Type: AWS::Route53::RecordSetGroup
+    Properties:
+      HostedZoneName: !Sub
+          - ${Domain}.
+          - Domain: !Ref RootDomainName
+      RecordSets:
+      -
+        Name: !Join
+          - '.'
+          - - !Ref SubDomainName
+            - !Ref RootDomainName
+        Type: A
+        # https://docs.aws.amazon.com/general/latest/gr/s3.html
+        AliasTarget:
+          HostedZoneId: 'Z3GKZC51ZF0DB4'
+          DNSName: 's3-website.eu-west-2.amazonaws.com'
+
+Outputs:
+  S3WebsiteUrl:
+    Value: !GetAtt
+      - S3Bucket
+      - WebsiteURL
+    Description: URL for website hosted on S3
+  WebsiteUrl:
+    Value: !Join
+      - ''
+      - -
+    Description: Url in hosted zone

@@ -1,0 +1,40 @@
+.game {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.instructions {
+  color: #666;
+  margin: 20px;
+  text-align: center;
+}
+
+.game-screen {
+  display: flex;
+}
+
+.star-screen {
+  text-align: center;
+  width: 50%;
+  border: thin solid #ddd;
+}
+
+.number-screen {
+  text-align: center;
+  width: 50%;
+  border: thin solid #ddd;
+}
+
+.timer {
+  color: #666;
+  margin-top: 3px;
+  margin-left: 3px;
+  font-style: italic;
+  font-size: larger;
+}
+
+.game-done .message {
+  font-size: 250%;
+  font-weight: bold;
+  margin: 15px;
+}

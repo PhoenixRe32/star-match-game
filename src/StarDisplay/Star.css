@@ -1,0 +1,10 @@
+.star {
+  color: goldenrod;
+  display: inline-block;
+  margin: 0 7px;
+}
+
+.star:after {
+  content: '\2605';
+  font-size: 40px;
+}
